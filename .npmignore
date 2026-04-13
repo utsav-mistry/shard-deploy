@@ -1,0 +1,14 @@
+# Files/dirs to exclude from the npm package
+# (node_modules is always excluded automatically)
+
+test-project/
+coverage/
+.nyc_output/
+.vscode/
+.idea/
+*.log
+*.bak
+*.tgz
+.env
+.env.*
+.DS_Store

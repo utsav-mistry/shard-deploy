@@ -1,0 +1,52 @@
+{
+  "name": "shard-deploy",
+  "version": "1.0.0",
+  "description": "Production-grade CLI for containerizing and deploying Node.js apps with Docker — backend-first, frontend-aware.",
+  "main": "index.js",
+  "bin": {
+    "shard-deploy": "./bin/shard-deploy.js"
+  },
+  "scripts": {
+    "start": "node bin/shard-deploy.js",
+    "dev": "node bin/shard-deploy.js",
+    "lint": "eslint ."
+  },
+  "keywords": [
+    "devops",
+    "docker",
+    "cli",
+    "deployment",
+    "nginx",
+    "containerize",
+    "nodejs",
+    "frontend",
+    "react",
+    "shard-deploy"
+  ],
+  "author": {
+    "name": "Utsav Mistry",
+    "url": "https://github.com/utsav-mistry"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@babel/parser": "^7.24.0",
+    "@babel/traverse": "^7.24.0",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "fs-extra": "^11.2.0",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1",
+    "semver": "^7.6.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/utsavdotpro/shard-deploy"
+  },
+  "bugs": {
+    "url": "https://github.com/utsavdotpro/shard-deploy/issues"
+  },
+  "homepage": "https://github.com/utsavdotpro/shard-deploy#readme"
+}
