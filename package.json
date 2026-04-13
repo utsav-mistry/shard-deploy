@@ -4,7 +4,7 @@
   "description": "Production-grade CLI for containerizing and deploying Node.js apps with Docker — backend-first, frontend-aware.",
   "main": "index.js",
   "bin": {
-    "shard-deploy": "./bin/shard-deploy.js"
+    "shard-deploy": "bin/shard-deploy.js"
   },
   "scripts": {
     "start": "node bin/shard-deploy.js",
@@ -43,7 +43,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/utsavdotpro/shard-deploy"
+    "url": "git+https://github.com/utsavdotpro/shard-deploy.git"
   },
   "bugs": {
     "url": "https://github.com/utsavdotpro/shard-deploy/issues"
