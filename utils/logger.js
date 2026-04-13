@@ -55,7 +55,7 @@ const logger = {
       chalk.bold.hex('#6C63FF')('  ╚══════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ '),
       '',
       chalk.hex('#A8A5FF')('  shard-deploy') + chalk.gray(' — production-grade deployment CLI'),
-      chalk.gray('  v1.0.0 · github.com/utsavdotpro/shard-deploy'),
+      chalk.gray('  v1.0.0 · github.com/utsav-mistry/shard-deploy'),
       '',
     ];
     console.log(lines.join('\n'));
