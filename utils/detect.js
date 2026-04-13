@@ -2,6 +2,7 @@
 
 const fs = require('fs-extra');
 const path = require('path');
+const { detectEntrypoint } = require('../core/detectors/entrypoint');
 
 /**
  * Read package.json from the target directory.
@@ -26,8 +27,8 @@ function detectPort(pkg, fallback = '3000') {
 
   const scripts = Object.values(pkg.scripts || {}).join(' ');
   const portMatch = scripts.match(/PORT[= ](\d+)/) ||
-                    scripts.match(/--port[= ](\d+)/i) ||
-                    scripts.match(/-p\s+(\d+)/);
+    scripts.match(/--port[= ](\d+)/i) ||
+    scripts.match(/-p\s+(\d+)/);
   if (portMatch) return portMatch[1];
 
   // Check common env files
@@ -44,9 +45,8 @@ function detectPort(pkg, fallback = '3000') {
 /**
  * Detect the main entry point from package.json.
  */
-function detectEntry(pkg) {
-  if (!pkg) return 'index.js';
-  return pkg.main || 'index.js';
+function detectEntry(pkg, projectRoot = process.cwd()) {
+  return detectEntrypoint(projectRoot).label;
 }
 
 /**
@@ -55,9 +55,9 @@ function detectEntry(pkg) {
 function detectScripts(pkg) {
   const scripts = pkg?.scripts || {};
   return {
-    start:  scripts.start  ? 'npm start'       : 'node index.js',
-    build:  scripts.build  ? 'npm run build'   : null,
-    dev:    scripts.dev    ? 'npm run dev'      : null,
+    start: scripts.start ? 'npm start' : 'node index.js',
+    build: scripts.build ? 'npm run build' : null,
+    dev: scripts.dev ? 'npm run dev' : null,
   };
 }
 

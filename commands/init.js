@@ -1,13 +1,14 @@
 'use strict';
 
-const fs     = require('fs-extra');
-const path   = require('path');
-const chalk  = require('chalk');
-const ora    = require('ora');
+const fs = require('fs-extra');
+const path = require('path');
+const chalk = require('chalk');
+const ora = require('ora');
 
 const logger = require('../utils/logger');
 const { requireNode, execSafe } = require('../utils/shell');
-const { readPackageJson, detectPort, detectEntry, isFrontendProject } = require('../utils/detect');
+const { readPackageJson, detectPort, isFrontendProject } = require('../utils/detect');
+const { detectEntrypoint } = require('../core/detectors/entrypoint');
 const {
   dockerfileTemplate,
   dockerComposeTemplate,
@@ -38,7 +39,7 @@ async function initCommand(options) {
   // ── 1. Node.js check ─────────────────────────────────────────────────────
   requireNode();
   const nodeVersion = execSafe('node --version')?.replace('v', '') || '20';
-  const nodeMajor   = nodeVersion.split('.')[0] || '20';
+  const nodeMajor = nodeVersion.split('.')[0] || '20';
   logger.info(`Node.js ${nodeVersion} detected`);
 
   // ── 2. Read package.json ─────────────────────────────────────────────────
@@ -64,17 +65,25 @@ async function initCommand(options) {
   }
 
   // ── 4. Determine values ───────────────────────────────────────────────────
-  const port  = options.port  || detectPort(pkg);
-  const entry = detectEntry(pkg);
+  const port = options.port || detectPort(pkg);
   const appName = (pkg.name || 'app').replace(/[^a-z0-9-]/gi, '-').toLowerCase();
+  let entrypoint;
+
+  try {
+    entrypoint = detectEntrypoint(cwd);
+  } catch (err) {
+    logger.error(err.message);
+    process.exit(1);
+  }
 
   logger.blank();
   logger.step('Configuration summary');
   logger.detail(`App name  : ${chalk.cyan(appName)}`);
   logger.detail(`Port      : ${chalk.cyan(port)}`);
-  logger.detail(`Entry     : ${chalk.cyan(entry)}`);
+  logger.detail(`Entry     : ${chalk.cyan(entrypoint.label)}`);
   logger.detail(`Node      : ${chalk.cyan(nodeMajor)}`);
   logger.detail(`Nginx     : ${chalk.cyan(options.nginx ? 'yes' : 'no')}`);
+  logger.info(`Detected entrypoint: ${entrypoint.label}`);
   logger.blank();
 
   // ── 5. Generate files ────────────────────────────────────────────────────
@@ -87,7 +96,7 @@ async function initCommand(options) {
 
   writeFile(
     path.join(cwd, 'Dockerfile'),
-    dockerfileTemplate({ port, entry, nodeVersion: nodeMajor }),
+    dockerfileTemplate({ port, entrypoint, nodeVersion: nodeMajor }),
     force
   );
 

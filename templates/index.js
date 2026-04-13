@@ -3,7 +3,7 @@
 /**
  * Template: Dockerfile for a generic Node.js backend
  */
-function dockerfileTemplate({ port, entry, nodeVersion }) {
+function dockerfileTemplate({ port, entrypoint, nodeVersion }) {
   return `# syntax=docker/dockerfile:1
 # ─────────────────────────────────────────────
 #  shard-deploy generated Dockerfile
@@ -22,7 +22,7 @@ COPY . .
 
 EXPOSE ${port}
 
-CMD ["node", "${entry}"]
+CMD ${JSON.stringify(entrypoint.command)}
 `;
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "shard-deploy",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Production-grade CLI for containerizing and deploying Node.js apps with Docker — backend-first, frontend-aware.",
   "main": "index.js",
   "bin": {
